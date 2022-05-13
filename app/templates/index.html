@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Descarga audio Youtube</title>
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/style.css') }}">
+</head>
+<body>
+	<div class="content">
+
+		<h2>Descargar audios de Youtube</h2>
+		<form method="post" action="/">
+			<p>Descarga el audio de un videos de youtube, pega su url o una lista de reproducción y si lo necesitas el nombre de la carpeta donde almacenarlo.</p>
+			<label for="folder">Carpeta(no es obligatorio)</label>
+			<input type="text" id="folder" name="folder">
+			<label for="url">url(pega url de youtube)</label>
+			<input type="text" id="url" name="url">
+			<input type="submit" value="Enviar">
+		</form>
+		<div id="message"></div>
+		<script>
+			const urlParams = new URLSearchParams(window.location.search);
+			if (urlParams.get('message')){
+				document.getElementById('message').innerHTML=urlParams.get('message')
+			}
+		</script>
+	</div>
+   
+</body>
+</html>

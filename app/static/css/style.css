@@ -1,0 +1,68 @@
+:root {
+	--primary: #04AA6D;
+  }
+  
+*{
+	box-sizing:border-box;
+	font-family: Arial, Helvetica, sans-serif;
+
+}
+
+h2{
+	color:var(--primary); 
+	text-align: center;
+}
+
+
+#message{
+	margin: 30px;
+	height: 30px;
+	text-align: center;
+    color: var(--primary); 
+}
+
+.content{
+	max-width:600px;
+	width: 100%;
+	padding:16px;
+	margin:40px auto;
+	border: 3px solid #f1f1f1;
+}
+
+form label{
+	font-weight:bold;
+	display:inline-block;
+}
+
+form input[type="text"]{
+	width: 100%;
+	padding: 12px 20px;
+	margin: 8px 0;
+	display: inline-block;
+	border: 1px solid #ccc;
+	box-sizing: border-box;
+}
+
+form input[type="submit"]{
+	background-color: var(--primary); 
+	color: white;
+	padding: 14px 20px;
+	margin: 8px 0;
+	border: none;
+	cursor: pointer;
+	width: 100%;
+	font-size: 1em;
+} 
+
+form input[type="submit"]:hover{
+	cursor:pointer;
+}
+
+textarea{
+	width: 100%;
+	padding: 12px 20px;
+	margin: 8px 0;
+	display: inline-block;
+	border: 1px solid #ccc;
+	box-sizing: border-box;
+}

@@ -1,0 +1,12 @@
+version: '3.1'
+services:
+  yt_dlp:
+    image: manologcode/yt_dlp
+    restart: always
+    container_name: yt_dlp
+    command: gunicorn wsgi:app  -w 5 -b :5000 --reload
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./youtube_audios:/youtube_audios
+
