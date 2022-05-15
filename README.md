@@ -1,9 +1,9 @@
-# TEXTO TO MP3
+# DESCARGA AUDIO YOUTUBE
 
-Se trata de sencilla aplicación de entorno servidor con interface web que nos permite descargar de youtube en formato audio.
+Se trata de sencilla aplicación de entorno servidor con interface web que nos permite descargar de Youtube en formato audio.
 Esta pensada para instalar en un rapsberry y poder disfrutar de servicio en casa. Esta probada en una Rasperry pi 4
 
-pega la url del video o de la lista de reproducción, introduce un nombre de carpeta si necesitas que se agrupen y descargará,
+Pega la url del video o de la lista de reproducción, introduce un nombre de carpeta si necesitas que se agrupen y descargará,
 el audio del video.
 
 ![screenshort](screenshort.png)
