@@ -9,18 +9,30 @@ from threading import active_count
 app = Flask(__name__)
 global background_thread
 def download_video_mp3(url,folder):
-    
+    path = folder + '%(title)s' + '.%(ext)s'
+    if folder!='/youtube_audios/':
+        album=folder.split('/')[2]
+    else:
+        album="youtube"
     ydl_opts = {
-        'outtmpl': folder + '%(title)s' + '.%(ext)s', 
+        'outtmpl': path, 
         'format': 'm4a/bestaudio/best',
         'ignoreerrors': True,
+        'writethumbnail': True,
         'postprocessors': [{  # Extract audio using ffmpeg
             'key': 'FFmpegExtractAudio',
             'preferredcodec': 'm4a',
-            }]
+            },
+            {'key': 'EmbedThumbnail'},
+            {'key': 'FFmpegMetadata'},
+            ],
+        'postprocessor_args': ['-metadata', 'album='+album]    
         }
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         ydl.download(url)
+    
+
+
 
 @app.route('/', methods = ['GET','POST'])
 def index():
