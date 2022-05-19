@@ -11,19 +11,24 @@
 	<div class="content">
 
 		<h2>Descargar audios de Youtube</h2>
-		<form method="post" action="/">
+		<form method="post" action="/" id='form'>
 			<p>Descarga el audio de un videos de youtube, pega su url o una lista de reproducción y si lo necesitas el nombre de la carpeta donde almacenarlo.</p>
 			<label for="folder">Carpeta(no es obligatorio)</label>
 			<input type="text" id="folder" name="folder">
 			<label for="url">url(pega url de youtube)</label>
 			<input type="text" id="url" name="url">
-			<input type="submit" value="Enviar">
+			<input type="submit" id="submit" value="Enviar">
 		</form>
 		<div id="message"></div>
 		<script>
 			const urlParams = new URLSearchParams(window.location.search);
 			if (urlParams.get('message')){
 				document.getElementById('message').innerHTML=urlParams.get('message')
+			}
+			document.getElementById('submit').addEventListener('click',show_load)
+			function show_load(){
+				document.getElementById('form').classList.add("hiden")
+				document.getElementById('message').innerHTML = "DESCARGANDO ..."
 			}
 		</script>
 	</div>

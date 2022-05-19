@@ -2,8 +2,6 @@ from flask import Flask, request, render_template
 import yt_dlp
 import os
 import unidecode
-from threading import Thread
-from threading import active_count
 
 
 app = Flask(__name__)
@@ -13,7 +11,7 @@ def download_video_mp3(url,folder):
     if folder!='/youtube_audios/':
         album=folder.split('/')[2]
     else:
-        album="youtube"
+        album="%(author)s"
     ydl_opts = {
         'outtmpl': path, 
         'format': 'm4a/bestaudio/best',
@@ -50,20 +48,9 @@ def index():
                    os.makedirs(folder)
                    os.chown(folder, 1000, 1000)
                    path_exit=folder+"/"
-            process_1=active_count()
-            background_thread = Thread(target=download_video_mp3, kwargs={"url": url, "folder": path_exit})
-            background_thread.start()
-            process_2=active_count()
-            # download_video_mp3(url,path)
-            return render_template('loading.html', p_1=process_1, p_2=process_2, p_s="DESCARGANDO." )
-        else:
-            return render_template('index.html')
-    else:
-        return render_template('index.html')
+            download_video_mp3(url,path_exit)
 
-@app.route('/loading/', methods = ['GET'])
-def loading():
-    process_string = request.args.get('ps') + "."
-    return render_template('loading.html', p_1=request.args.get('p1'), p_2=active_count(), p_s=process_string )    
+    return render_template('index.html')
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

@@ -8,6 +8,10 @@
 
 }
 
+.hiden{
+	display: none;
+}
+
 h2{
 	color:var(--primary); 
 	text-align: center;
