@@ -5,13 +5,15 @@ import unidecode
 
 
 app = Flask(__name__)
-global background_thread
+
+folder_base="youtube_audios"
+
 def download_video_mp3(url,folder):
+    if "audiobooks" in folder: 
+        folder = folder + "/" + '%(title)s'+ "/"
     path = folder + '%(title)s' + '.%(ext)s'
-    if folder!='/youtube_audios/':
-        album=folder.split('/')[2]
-    else:
-        album="%(author)s"
+    album="%(author)s"
+
     ydl_opts = {
         'outtmpl': path, 
         'format': 'm4a/bestaudio/best',
@@ -39,11 +41,12 @@ def index():
         print(data)
         folder = data['folder'] if 'folder' in data else None
         url = data['url'] if 'url' in data else None
-        path_exit='/youtube_audios/'
+        type_sound = data['type_sound'] if 'type_sound' in data else None
+        path_exit=f"/{folder_base}/{type_sound}/"
         if url:
             if folder:
                 folder = unidecode.unidecode(folder).replace(" ", "_")
-                folder=f'/youtube_audios/'+folder
+                folder= path_exit+'/'+folder
                 if not os.path.exists(folder):
                    os.makedirs(folder)
                    os.chown(folder, 1000, 1000)
