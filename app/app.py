@@ -2,23 +2,23 @@ from flask import Flask, request, render_template
 import yt_dlp
 import os
 import unidecode
-
+from mutagen.mp4 import MP4
 
 app = Flask(__name__)
 
 folder_base="youtube_audios"
 
 def download_video_mp3(url,folder):
-    album='%(artist)s'
+    folder1 = folder
     if "audiobooks" in folder: 
-        folder = folder + "/" + '%(title)s'+ "/"
-        album='%(title)s'
-    path = folder + '%(title)s' + '.%(ext)s'
+        folder1 = folder + "/" + '%(title)s'+ "/"
+    path = folder1 + '%(title)s' + '.%(ext)s'
     ydl_opts = {
         'outtmpl': path, 
         'format': 'm4a/bestaudio/best',
         'ignoreerrors': True,
         'writethumbnail': True,
+        # 'postprocessor_args': ['-metadata', "album= '%(title)s'"],    
         'postprocessors': [{  # Extract audio using ffmpeg
             'key': 'FFmpegExtractAudio',
             'preferredcodec': 'm4a',
@@ -26,11 +26,22 @@ def download_video_mp3(url,folder):
             {'key': 'EmbedThumbnail'},
             {'key': 'FFmpegMetadata'},
             ],
-        'postprocessor_args': ['-metadata', 'album='+album]    
         }
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        info = ydl.extract_info(url, download=False)
         ydl.download(url)
-    
+
+    folder2 = folder    
+    if "audiobooks" in folder: 
+        folder2 = folder + "/" + info['title']+ "/"  
+    path2 = folder2 + info['title'] + '.'+info['ext']  
+
+    tags = MP4(path2)
+    album=tags['©ART'][0]
+    if "audiobooks" in folder: 
+       album=tags['©nam'][0] 
+    tags['\xa9alb'] = f"{album}"
+    tags.save()    
 
 
 
