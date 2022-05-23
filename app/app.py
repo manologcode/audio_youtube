@@ -9,11 +9,11 @@ app = Flask(__name__)
 folder_base="youtube_audios"
 
 def download_video_mp3(url,folder):
+    album='%(artist)s'
     if "audiobooks" in folder: 
         folder = folder + "/" + '%(title)s'+ "/"
+        album='%(title)s'
     path = folder + '%(title)s' + '.%(ext)s'
-    album="%(author)s"
-
     ydl_opts = {
         'outtmpl': path, 
         'format': 'm4a/bestaudio/best',
