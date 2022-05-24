@@ -10,8 +10,6 @@ folder_base="youtube_audios"
 
 def download_video_mp3(url,folder):
     folder1 = folder
-    if "audiobooks" in folder: 
-        folder1 = folder + "/" + '%(title)s'+ "/"
     path = folder1 + '%(title)s' + '.%(ext)s'
     ydl_opts = {
         'outtmpl': path, 
@@ -19,7 +17,7 @@ def download_video_mp3(url,folder):
         'ignoreerrors': True,
         'writethumbnail': True,
         # 'postprocessor_args': ['-metadata', "album= '%(title)s'"],    
-        'postprocessors': [{  # Extract audio using ffmpeg
+        'postprocessors': [{ 
             'key': 'FFmpegExtractAudio',
             'preferredcodec': 'm4a',
             },
@@ -30,18 +28,24 @@ def download_video_mp3(url,folder):
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         info = ydl.extract_info(url, download=False)
         ydl.download(url)
+        print("----------------")
+        name=info['title'].replace("|", "_")
+        folder2 = folder
+        path2 = folder2 + name + '.'+info['ext'] 
+        if "audiobooks" in folder: 
+            folder2 = folder  + name + "/" 
+            os.makedirs(folder2)
+            os.chown(folder2, 1000, 1000) 
+            new_path2 = folder2 + name + '.'+info['ext']  
+            os.rename(path2, new_path2)
+            path2=new_path2
 
-    folder2 = folder    
-    if "audiobooks" in folder: 
-        folder2 = folder + "/" + info['title']+ "/"  
-    path2 = folder2 + info['title'] + '.'+info['ext']  
-
-    tags = MP4(path2)
-    album=tags['©ART'][0]
-    if "audiobooks" in folder: 
-       album=tags['©nam'][0] 
-    tags['\xa9alb'] = f"{album}"
-    tags.save()    
+        tags = MP4(path2)
+        album=tags['©ART'][0]
+        if "audiobooks" in folder: 
+            album=tags['©nam'][0] 
+        tags['\xa9alb'] = f"{album}"
+        tags.save()    
 
 
 
@@ -49,7 +53,6 @@ def download_video_mp3(url,folder):
 def index():
     if request.method == "POST":
         data = request.form
-        print(data)
         folder = data['folder'] if 'folder' in data else None
         url = data['url'] if 'url' in data else None
         type_sound = data['type_sound'] if 'type_sound' in data else None
@@ -57,7 +60,7 @@ def index():
         if url:
             if folder:
                 folder = unidecode.unidecode(folder).replace(" ", "_")
-                folder= path_exit+'/'+folder
+                folder= path_exit + folder
                 if not os.path.exists(folder):
                    os.makedirs(folder)
                    os.chown(folder, 1000, 1000)
