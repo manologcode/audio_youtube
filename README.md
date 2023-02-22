@@ -1,7 +1,8 @@
 # DESCARGA AUDIO YOUTUBE
 
 Se trata de sencilla aplicación de entorno servidor con interface web que nos permite descargar de Youtube en formato audio.
-Esta pensada para instalar en un Raspberry y poder disfrutar de servicio en casa. Esta probada en una Raspberry pi 4
+Esta pensada para instalar en un Raspberry y poder disfrutar de servicio en casa. Esta probada en una Raspberry pi 4.
+actualizada la imagen a 2023-02-22
 
 Pega la url del video o de la lista de reproducción, introduce un nombre de carpeta si necesitas que se agrupen y descargará, el audio del video.
 
@@ -11,9 +12,11 @@ Se le ha añadido alguna modificaciones para adaptarlo a mis necesidades, un sel
 
 Para correr la aplicación 
 
-**crear primero la carpeta de almacenamiento de resultados**
+**crear primero las carpetas de almacenamiento de resultados**
 
-    mkdir youtube_audios
+    mkdir -p youtube_audios/musics
+    mkdir -p youtube_audios/audiobooks
+
 
 ### con docker
 
